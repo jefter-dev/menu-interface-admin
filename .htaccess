@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_METHOD} ^PUT$
+    RewriteRule .* - [L]
+</IfModule>
+
+<Limit PUT>
+    Require all granted
+</Limit>
