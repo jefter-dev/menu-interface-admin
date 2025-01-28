@@ -157,7 +157,7 @@ async function createTableUsers() {
                             <tr class="align-middle">
                                 <td class="text-center">
                                     <div class="avatar avatar-md">
-                                        <img class="avatar-img" src="${user.image ? `${HOST_REQUEST}/uploads/user/${user.image}` : HOST + '/assets/img/no-icon.png'}" alt="${user.name || 'Sem nome'}">
+                                        <img class="avatar-img" src="${user.image ? `${HOST_REQUEST}/uploads/user/${user.id}/${user.image}` : HOST + '/assets/img/no-icon.png'}" alt="${user.name || 'Sem nome'}">
                                         <span class="avatar-status bg-success"></span>
                                     </div>
                                 </td>
@@ -252,7 +252,7 @@ function createFormUser(user) {
                         <div class="row g-3">
                             <fieldset class="row mb-3">
                                 <legend>Informações Gerais</legend>
-
+   
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Nome <span class="badge text-bg-info">Usuário /
                                             Estabelecimento</span></label>
@@ -262,17 +262,17 @@ function createFormUser(user) {
                                     <label for="username" class="form-label">Username</label>
                                     <input type="text" id="username" name="username" class="form-control" required>
                                 </div>
-
+   
                                 <div class="col-md-6 mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" id="email" name="email" class="form-control" required>
                                 </div>
-
+   
                                 <div class="col-md-6 mb-3">
                                     <label for="password" class="form-label">Senha ${!isEdit ? '<span class="badge text-bg-warning">Obrigatório</span>' : '<span class="badge text-bg-info">Se alterar</span>'}</label>
                                     <input type="password" id="password" name="password" class="form-control" ${!isEdit ? 'required' : ''}>
                                 </div>
-
+   
                                 <div class="col-md-6 mb-3">
                                     <label for="admin" class="form-label">Acesso</label>
                                     <div class="form-check">
@@ -284,68 +284,73 @@ function createFormUser(user) {
                                 </div>
                                 <div class="col-md-6">
                                 </div>
-
+   
                                 <div class="col-md-6">
                                     <label for="cnpj" class="form-label">CNPJ</label>
                                     <input type="text" id="cnpj" name="cnpj" class="form-control" required>
                                 </div>
-
+   
                                 <div class="col-md-6">
                                     <label for="socialReason" class="form-label">Razão Social</label>
                                     <input type="text" id="socialReason" name="socialReason" class="form-control"
                                         required>
                                 </div>
-
-
+   
+   
                                 <div class="col-md-6">
                                     <label for="image" class="form-label">Imagem</label>
                                     <input type="file" id="image" name="image" class="form-control" accept="image/*">
-                                    ${isEdit && user.image ? `<img src="${HOST_REQUEST}/uploads/user/${user.image}" alt="Imagem do usuário / estabelecimento" style="max-width: 100px; margin-top: 10px;" />` : ''}
+                                    ${isEdit && user.image ? `<img src="${HOST_REQUEST}/uploads/user/${user.id}/${user.image}" alt="Imagem do usuário / estabelecimento" style="max-width: 100px; margin-top: 10px;" />` : ''}
+                                </div>
+                                 <div class="col-md-6">
+                                    <label for="banner" class="form-label">Banner</label>
+                                    <input type="file" id="banner" name="banner" class="form-control" accept="image/*">
+                                    ${isEdit && user.banner ? `<img src="${HOST_REQUEST}/uploads/user/${user.id}/${user.banner}" alt="Banner do usuário / estabelecimento" style="max-width: 100px; margin-top: 10px;" />` : ''}
                                 </div>
                             </fieldset>
-
+   
                             <fieldset class="col-6">
                                 <fieldset class="row">
                                     <legend>Endereço</legend>
-
+   
                                     <div class="col-md-9 mb-3">
                                         <label for="street" class="form-label">Rua</label>
                                         <input type="text" id="street" name="street" class="form-control" required>
                                     </div>
-
+   
                                     <div class="col-md-3 mb-3">
                                         <label for="number" class="form-label">Número</label>
                                         <input type="text" id="number" name="number" class="form-control" required>
                                     </div>
-
+   
                                     <div class="col-md-4 mb-3">
                                         <label for="neighborhood" class="form-label">Bairro</label>
                                         <input type="text" id="neighborhood" name="neighborhood" class="form-control"
                                             required>
                                     </div>
-
+   
                                     <div class="col-md-8 mb-3">
                                         <label for="referencePoint" class="form-label">Ponto de Referência</label>
                                         <input type="text" id="referencePoint" name="referencePoint"
                                             class="form-control">
                                     </div>
-
+   
                                     <div class="col-md-6 mb-3">
                                         <label for="postalCode" class="form-label">CEP</label>
                                         <input type="text" id="postalCode" name="postalCode" class="form-control"
                                             required>
                                     </div>
-
+   
                                     <div class="col-md-6 mb-3">
                                         <label for="city" class="form-label">Cidade</label>
                                         <input type="text" id="city" name="city" class="form-control" required>
                                     </div>
                                 </fieldset>
                             </fieldset>
-
+   
                             <fieldset class="col-6">
                                 <legend>Horário de Funcionamento</legend>
-
+   
                                 <div class="row g-2 align-items-center operating-hours">
                                     <div class="col-auto">
                                         <div class="form-check form-check-adjust">
@@ -366,7 +371,7 @@ function createFormUser(user) {
                                             class="form-control">
                                     </div>
                                 </div>
-
+   
                                 <div class="row g-2 align-items-center operating-hours">
                                     <div class="col-auto">
                                         <div class="form-check form-check-adjust">
@@ -387,7 +392,7 @@ function createFormUser(user) {
                                             name="operatingHours[tuesday][closingTime]" class="form-control">
                                     </div>
                                 </div>
-
+   
                                 <div class="row g-2 align-items-center operating-hours">
                                     <div class="col-auto">
                                         <div class="form-check form-check-adjust">
@@ -408,7 +413,7 @@ function createFormUser(user) {
                                             name="operatingHours[wednesday][closingTime]" class="form-control">
                                     </div>
                                 </div>
-
+   
                                 <div class="row g-2 align-items-center operating-hours">
                                     <div class="col-auto">
                                         <div class="form-check form-check-adjust">
@@ -429,7 +434,7 @@ function createFormUser(user) {
                                             name="operatingHours[thursday][closingTime]" class="form-control">
                                     </div>
                                 </div>
-
+   
                                 <div class="row g-2 align-items-center operating-hours">
                                     <div class="col-auto">
                                         <div class="form-check form-check-adjust">
@@ -450,7 +455,7 @@ function createFormUser(user) {
                                             class="form-control">
                                     </div>
                                 </div>
-
+   
                                 <div class="row g-2 align-items-center operating-hours">
                                     <div class="col-auto">
                                         <div class="form-check form-check-adjust">
@@ -471,7 +476,7 @@ function createFormUser(user) {
                                             name="operatingHours[saturday][closingTime]" class="form-control">
                                     </div>
                                 </div>
-
+   
                                 <div class="row g-2 align-items-center operating-hours">
                                     <div class="col-auto">
                                         <div class="form-check form-check-adjust">
@@ -492,7 +497,7 @@ function createFormUser(user) {
                                             class="form-control">
                                     </div>
                                 </div>
-
+   
                             </fieldset>
                         </div>
                     </div>
@@ -632,7 +637,10 @@ function createFormUser(user) {
             if (response.status === (isEdit ? 200 : 201)) {
                 userId = isEdit ? user.id : response.data.id;
                 if (formData.get('image')?.size > 0) {
-                    await uploadImage(formData.get('image'), userId, submitButton, spinner);
+                    await uploadImage(formData.get('image'), userId, submitButton, spinner, 'image');
+                }
+                if (formData.get('banner')?.size > 0) {
+                    await uploadImage(formData.get('banner'), userId, submitButton, spinner, 'banner');
                 }
                 toast(`Usuário ${isEdit ? 'atualizado' : 'criado'} com sucesso!`, "Sucesso", "success");
 
@@ -642,10 +650,10 @@ function createFormUser(user) {
                     window.location = HOST;
                 }
 
-                if(userToSend.id == loggedUser.id) {
+                if (userToSend.id == loggedUser.id) {
                     saveSessionUser(response.data);
                 }
-                
+
             }
         } catch (error) {
             console.log(`Erro ao ${isEdit ? 'atualizar' : 'criar'} o usuário: `, error);
@@ -681,27 +689,30 @@ function createFormUser(user) {
         return operatingHours;
     }
 
-    async function uploadImage(file, userId, submitButton, spinner) {
+    async function uploadImage(file, userId, submitButton, spinner, type) {
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append(type, file); // Use 'image' ou 'banner' como nome do campo
 
         // Mostra o spinner e desabilita o botão
         submitButton.disabled = true;
         spinner.classList.remove('d-none');
 
+        let url = `${HOST_REQUEST}/user/${userId}/upload/${type}`; // Constroi a url corretamente
+
+
         try {
-            const response = await axios.post(`${HOST_REQUEST}/user/${userId}/upload`, formData, {
+            const response = await axios.post(url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
-            toast("Imagem do produto atualizada com sucesso!", "Sucesso", "success");
+            toast(`${type.charAt(0).toUpperCase() + type.slice(1)} do produto atualizada com sucesso!`, "Sucesso", "success");
             return response.data.imageUrl;
         } catch (error) {
             const errorMessage = error.response?.data?.message || error.message || 'Erro desconhecido';
-            console.error('Erro ao enviar a imagem:', error);
-            toast(errorMessage, "Falha ao enviar imagem", "danger");
+            console.error(`Erro ao enviar a ${type}:`, error);
+            toast(errorMessage, `Falha ao enviar ${type}`, "danger");
             return null;
         }
         finally {

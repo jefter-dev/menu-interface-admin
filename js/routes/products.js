@@ -2,7 +2,7 @@ async function createTableProducts() {
     const loggedUser = getSessionUser();
     const container = document.querySelector('.body');
 
-    // Placeholder da tabela
+    // Placeholder da tabela (mantido como está)
     container.innerHTML = `
         <div class="container mt-4 mg-bottom-20">
             <table class="table table-hover border mb-0" id="productsTable">
@@ -12,6 +12,7 @@ async function createTableProducts() {
                         <th class="bg-body-secondary">Nome</th>
                         <th class="bg-body-secondary text-center">Preço</th>
                         <th class="bg-body-secondary text-center">Adicionais</th>
+                        <th class="bg-body-secondary text-center">Desconto</th>
                         <th class="bg-body-secondary text-center">Categorias</th>
                         <th class="bg-body-secondary"></th>
                     </tr>
@@ -25,6 +26,7 @@ async function createTableProducts() {
                     <td class="text-center"><span class="placeholder col-6"></span></td>
                     <td class="text-center"><span class="placeholder col-8"></span></td>
                     <td class="text-center"><span class="placeholder col-8"></span></td>
+                    <td class="text-center"><span class="placeholder col-8"></span></td>
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-transparent p-0 placeholder col-4" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -40,6 +42,7 @@ async function createTableProducts() {
                     <td class="text-center"><span class="placeholder col-6"></span></td>
                     <td class="text-center"><span class="placeholder col-8"></span></td>
                     <td class="text-center"><span class="placeholder col-8"></span></td>
+                    <td class="text-center"><span class="placeholder col-8"></span></td>
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-transparent p-0 placeholder col-4" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -53,6 +56,7 @@ async function createTableProducts() {
                         <div class="text-nowrap"><span class="placeholder col-8"></span></div>
                     </td>
                     <td class="text-center"><span class="placeholder col-6"></span></td>
+                    <td class="text-center"><span class="placeholder col-8"></span></td>
                     <td class="text-center"><span class="placeholder col-8"></span></td>
                     <td class="text-center"><span class="placeholder col-8"></span></td>
                     <td>
@@ -86,16 +90,19 @@ async function createTableProducts() {
                             <th class="bg-body-secondary">Nome</th>
                             <th class="bg-body-secondary text-center">Preço</th>
                             <th class="bg-body-secondary text-center">Adicionais</th>
+                            <th class="bg-body-secondary text-center">Desconto</th>
                             <th class="bg-body-secondary text-center">Categorias</th>
                             <th class="bg-body-secondary"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${products.map(product => `
+                        ${products.map(product => {
+            const precoDiscount = product.discount ? (product.price * (1 - product.discount / 100)).toFixed(2) : null;
+            return `
                                 <tr class="align-middle">
                                     <td class="text-center">
                                         <div class="avatar avatar-md">
-                                            <img class="avatar-img" src="${product.image ? `${HOST_REQUEST}/uploads/product/${product.image}` : HOST + '/assets/img/no-icon.png'}" alt="${product.name || 'Sem nome'}">
+                                            <img class="avatar-img" src="${product.image ? `${HOST_REQUEST}/uploads/product/${product.id}/${product.image}` : HOST + '/assets/img/no-icon.png'}" alt="${product.name || 'Sem nome'}">
                                             <span class="avatar-status bg-success"></span>
                                         </div>
                                     </td>
@@ -106,10 +113,13 @@ async function createTableProducts() {
                                             ${product.description || ''}
                                         </div>
                                     </td>
-                                    <td class="text-center">R$ ${product.price || '0.00'}</td>
+                                    <td class="text-center">
+                                        ${product.discount ? `<del><small>R$ ${product.price.toFixed(2)}</small></del> R$ <b>${precoDiscount}</b>` : `R$ ${product.price.toFixed(2)}`}
+                                    </td>
                                     <td class="text-center">
                                         ${formatAdditionalsDetails(product)}
                                     </td>
+                                    <td class="text-center">${product.discount ? `${product.discount}%` : '-'}</td>
                                     <td class="text-center">
                                         ${formatCategoriesDetails(product)}
                                     </td>
@@ -127,8 +137,8 @@ async function createTableProducts() {
                                         </div>
                                     </td>
                                 </tr>
-                            `
-        ).join('')}
+                            `;
+        }).join('')}
                     </tbody>
                 </table>
             </div>
@@ -253,7 +263,6 @@ async function createFormProduct(product) {
         const additionals = additionalsResponse.data;
         const categories = categoriesResponse.data;
 
-
         const formHTML = `
             <div class="container mt-4">
                 <form class="card mb-3" id="productForm" action="/submit" method="POST" enctype="multipart/form-data">
@@ -274,10 +283,14 @@ async function createFormProduct(product) {
                                     <label for="additionalQuantity" class="form-label">Quantidade de adicionais permitidas</label>
                                     <input type="number" id="additionalQuantity" name="additionalQuantity" class="form-control" required value="1" min="1">
                                     </div>
+                                     <div class="col-md-6 mb-3">
+                                        <label for="discount" class="form-label">Desconto (%)</label>
+                                        <input type="number" id="discount" name="discount" class="form-control" step="1" min="0" max="100">
+                                    </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="image" class="form-label">Imagem</label>
                                     <input type="file" id="image" name="image" class="form-control">
-                                        ${isEdit && product.image ? `<img src="${HOST_REQUEST}/uploads/product/${product.image}" alt="Imagem do produto" style="max-width: 100px; margin-top: 10px;" />` : ''}
+                                        ${isEdit && product.image ? `<img src="${HOST_REQUEST}/uploads/product/${product.id}/${product.image}" alt="Imagem do produto" style="max-width: 100px; margin-top: 10px;" />` : ''}
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="description" class="form-label">Descrição</label>
@@ -325,7 +338,6 @@ async function createFormProduct(product) {
             </div>
         `;
 
-
         const container = document.querySelector('.body');
         container.innerHTML = formHTML;
 
@@ -339,6 +351,7 @@ async function createFormProduct(product) {
             form.querySelector('#price').value = product.price || '';
             form.querySelector('#additionalQuantity').value = product.additionalQuantity || '1';
             form.querySelector('#description').value = product.description || ''; // Preencher a descrição ao editar
+            form.querySelector('#discount').value = product.discount || '';
         }
 
         form.addEventListener('submit', async (event) => {
@@ -357,13 +370,15 @@ async function createFormProduct(product) {
                 name: formData.get('name'),
                 price: parseFloat(formData.get('price')),
                 additionalQuantity: parseInt(formData.get('additionalQuantity')),
-                description: formData.get('description'), // Adiciona a descrição ao objeto
+                description: formData.get('description'),
+                discount: parseInt(formData.get('discount') ? formData.get('discount') : 0.00), // Adiciona o desconto
                 user: {
                     id: loggedUser.id
                 },
                 categories: selectedCategories,
                 productAdditionals: selectedAdditionals
             };
+
 
             let url = `${HOST_REQUEST}/product`;
             let method = 'post';
@@ -377,6 +392,8 @@ async function createFormProduct(product) {
             }
 
             try {
+                console.log("productToSend: ", productToSend)
+
                 const response = await axios({
                     url: url,
                     method: method,
@@ -397,6 +414,8 @@ async function createFormProduct(product) {
                     toast(`Produto ${isEdit ? 'atualizado' : 'criado'} com sucesso!`, "Sucesso", "success");
                     createTableProducts();
                 }
+
+
             } catch (error) {
                 console.error(`Erro ao ${isEdit ? 'atualizar' : 'criar'} o produto: `, error);
                 toast(error.response ? error.response.data : error.message, "Cadastro inválido", "danger");
@@ -408,7 +427,6 @@ async function createFormProduct(product) {
             }
         });
 
-
         async function uploadImage(file, productId, submitButton, spinner) {
             const formData = new FormData();
             formData.append('image', file);
@@ -416,13 +434,13 @@ async function createFormProduct(product) {
             // Mostra o spinner e desabilita o botão
             submitButton.disabled = true;
             spinner.classList.remove('d-none');
+
             try {
                 const response = await axios.post(`${HOST_REQUEST}/product/${productId}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-
                 toast("Imagem do produto atualizada com sucesso!", "Sucesso", "success");
                 return response.data.imageUrl;
             } catch (error) {
@@ -441,8 +459,6 @@ async function createFormProduct(product) {
         console.error('Erro ao carregar dados:', error);
         toast(error.response ? error.response.data : error.message, "Falha ao carregar dados", "danger");
     }
-
-
 }
 
 createTableProducts();

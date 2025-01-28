@@ -400,7 +400,7 @@ async function createFormOrder(order) {
                             ${categoryProducts.map(product => `
                             <div class="col h-100">
                                 <div class="card product-card h-100 d-flex flex-column" data-product='${JSON.stringify(product)}' data-product-id="${product.id}">
-                                ${product.image ? `<div style="height: 200px; display: flex; justify-content: center; align-items: center; padding: 10px;"><img style="max-width: 100%; max-height: 100%; border-radius: var(--cui-border-radius);" src="${HOST_REQUEST}/uploads/product/${product.image}" class="card-img-top rounded" alt="${product.name}"></div>` : ''}
+                                ${product.image ? `<div style="height: 200px; display: flex; justify-content: center; align-items: center; padding: 10px;"><img style="max-width: 100%; max-height: 100%; border-radius: var(--cui-border-radius);" src="${HOST_REQUEST}/uploads/product/${product.id}/${product.image}" class="card-img-top rounded" alt="${product.name}"></div>` : ''}
                                     <div class="card-body" style="overflow: hidden;">
                                         <h5 class="card-title" style="overflow: hidden; text-overflow: ellipsis;">${product.id} - ${product.name}</h5>
                                             <p class="card-text" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${product.description ? product.description : ''}</p>
