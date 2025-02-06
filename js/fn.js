@@ -17,12 +17,26 @@ const initializeInterfaceSession = () => {
                                         <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-external-link"></use>
                                     </svg>
                                 </span></a>
-                                <img style="max-width: 300px; margin-top: 30px; border-radius: 0.375rem;" src="${loggedUser.image != null ? `${HOST_REQUEST}/uploads/user/${loggedUser.image}` : HOST + '/assets/img/no-icon.png'}" alt="${loggedUser.name || 'Sem nome'}" style="max-width: 100px; margin-top: 10px;" />`;
+                                <img style="max-width: 300px; margin-top: 30px; border-radius: 0.375rem;" src="${loggedUser.image != null ? `${HOST_REQUEST}/uploads/user/${loggedUser.id}/${loggedUser.image}` : HOST + '/assets/img/no-icon.png'}" alt="${loggedUser.name || 'Sem nome'}" style="max-width: 100px; margin-top: 10px;" />`;
         }
 
         createMenuSidebar();
         createHeader();
         createFooter();
+
+        if (loggedUser.banner != null) {
+            const bannerUrl = `${HOST_REQUEST}/uploads/user/${loggedUser.id}/${loggedUser.banner}`;
+            const bannerDiv = document.getElementById('banner');
+
+            if (bannerDiv) {
+                bannerDiv.style.backgroundImage = `url('${bannerUrl}')`;
+                bannerDiv.style.backgroundSize = 'cover';
+                bannerDiv.style.backgroundRepeat = 'no-repeat';
+                bannerDiv.style.backgroundPosition = 'center';
+            } else {
+                console.warn('Elemento com id "banner" não encontrado.');
+            }
+        }
     } else {
         window.location.href = `${HOST}/login.html`;
     }
@@ -283,7 +297,7 @@ function createHeader() {
             <li class="nav-item dropdown">
                 <a id="edit-user" class="nav-link py-0 pe-0" data-coreui-toggle="dropdown" href="#"
                     role="button" aria-haspopup="true" aria-expanded="false">
-                    <div class="avatar avatar-md"><img class="avatar-img" src="${loggedUser.image != null ? `${HOST_REQUEST}/uploads/user/${loggedUser.image}` : HOST + '/assets/img/no-icon.png'}" alt="${loggedUser.name || 'Sem nome'}">
+                    <div class="avatar avatar-md"><img class="avatar-img" src="${loggedUser.image != null ? `${HOST_REQUEST}/uploads/user/${loggedUser.id}/${loggedUser.image}` : HOST + '/assets/img/no-icon.png'}" alt="${loggedUser.name || 'Sem nome'}">
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
@@ -329,6 +343,7 @@ function createHeader() {
             header.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
         }
     });
+    
 
     // Seleciona todos os elementos com a classe .edit-user-btn
     const linkEditUsersHTML = document.querySelectorAll('.edit-user-btn');
