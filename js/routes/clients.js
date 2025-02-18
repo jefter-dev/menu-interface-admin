@@ -124,7 +124,7 @@ async function createTableClients() {
 
         // Adicionando os ouvintes de evento após inserir o HTML na página
         const table = document.getElementById('clientTable');
-        table.addEventListener('click', handleTableClick);
+        table.addEventListener('click', handleTableClickClient);
 
     } catch (error) {
         console.error('Erro ao carregar os clientes:', error);
@@ -132,7 +132,7 @@ async function createTableClients() {
     }
 }
 
-function handleTableClick(event) {
+function handleTableClickClient(event) {
     const target = event.target;
 
     if (target.classList.contains('edit-client-btn')) {

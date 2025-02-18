@@ -172,7 +172,7 @@ async function createTableOrders(selectedStatus = '') {
         table.addEventListener('change', handleOrderStatusChange);
         const statusFilter = document.getElementById('orderStatusFilter');
         statusFilter.addEventListener('change', handleStatusFilterChange);
-        table.addEventListener('click', handleTableClick);
+        table.addEventListener('click', handleTableClickOrder);
 
     } catch (error) {
         console.error('Erro ao carregar os pedidos:', error);
@@ -214,7 +214,7 @@ async function handleStatusFilterChange(event) {
 }
 
 // Função para manipular clicks na tabela (para abrir o modal de detalhes)
-function handleTableClick(event) {
+function handleTableClickOrder(event) {
     const target = event.target;
     if (target.classList.contains('view-order-btn')) {
         const order = JSON.parse(target.getAttribute('data-order'));

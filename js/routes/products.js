@@ -146,7 +146,7 @@ async function createTableProducts() {
         container.innerHTML = tableHTML;
 
         const table = document.getElementById('productsTable');
-        table.addEventListener('click', handleTableClick);
+        table.addEventListener('click', handleTableClickProduct);
 
     } catch (error) {
         console.error('Erro ao carregar os produtos:', error);
@@ -187,7 +187,7 @@ function formatAdditionalsDetails(product) {
     `;
 }
 
-function handleTableClick(event) {
+function handleTableClickProduct(event) {
     const target = event.target;
 
     if (target.classList.contains('edit-product-btn')) {

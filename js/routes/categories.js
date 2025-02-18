@@ -125,7 +125,7 @@ async function createTableCategories() {
 
 
         const table = document.getElementById('categoriesTable');
-        table.addEventListener('click', handleTableClick);
+        table.addEventListener('click', handleTableClickCategorie);
 
 
     } catch (error) {
@@ -134,7 +134,7 @@ async function createTableCategories() {
     }
 }
 
-function handleTableClick(event) {
+function handleTableClickCategorie(event) {
     const target = event.target;
 
     if (target.classList.contains('edit-category-btn')) {

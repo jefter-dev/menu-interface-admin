@@ -205,7 +205,7 @@ async function createTableUsers() {
 
         // Adicionando os ouvintes de evento após inserir o HTML na página
         const table = document.getElementById('userTable');
-        table.addEventListener('click', handleTableClick);
+        table.addEventListener('click', handleTableClickUser);
 
     } catch (error) {
         console.error('Erro ao carregar os usuários:', error);
@@ -213,7 +213,7 @@ async function createTableUsers() {
     }
 }
 
-function handleTableClick(event) {
+function handleTableClickUser(event) {
     const target = event.target;
     if (target.classList.contains('edit-user-btn')) {
         const user = JSON.parse(target.dataset.user);

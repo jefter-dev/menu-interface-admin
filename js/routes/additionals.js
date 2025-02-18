@@ -87,7 +87,7 @@ function renderTable(container, additionals) {
 
     // Adicionando os ouvintes de evento após inserir o HTML na página
     const table = document.getElementById('additionalsTable');
-    table.addEventListener('click', handleTableClick);
+    table.addEventListener('click', handleTableClickAdditional);
 }
 
 function createTableHTML(additionals) {
@@ -134,7 +134,7 @@ function createTableHTML(additionals) {
     `;
 }
 
-function handleTableClick(event) {
+function handleTableClickAdditional(event) {
     const target = event.target;
 
     if (target.classList.contains('edit-additional-btn')) {

@@ -34,7 +34,7 @@ const initializeInterfaceSession = () => {
                 bannerDiv.style.backgroundRepeat = 'no-repeat';
                 bannerDiv.style.backgroundPosition = 'center';
             } else {
-                console.warn('Elemento com id "banner" não encontrado.');
+                // console.warn('Elemento com id "banner" não encontrado.'); // DEBUG
             }
         }
     } else {
