@@ -226,7 +226,7 @@ function createFormClient(client) {
 
                             <div class="col-md-6 mb-3">
                                 <label for="postalCode" class="form-label">CEP</label>
-                                <input type="text" id="postalCode" name="postalCode" class="form-control"
+                                <input type="text" id="postalCode" name="postalCode" class="form-control" maxlength="9"
                                     required>
                             </div>
 
@@ -283,6 +283,7 @@ function createFormClient(client) {
         const clientToSend = {
             name: clientData.name,
             email: clientData.email,
+            password: clientData.password || null,
             address: {
                 street: clientData.street,
                 number: clientData.number,
