@@ -125,13 +125,20 @@ async function createTableOrders(selectedStatus = '') {
                             <td><b>${order.id || '-'}</b></td>
                             <td>R$ ${order.total ? order.total.toFixed(2) : '0.00'}</td>
                             <td class="text-center">
-                                <div class="badge 
+                            
+                            <div style="display: flex; align-items: center; flex-direction: column; gap: 10px;}" 
+                                class="badge
                                     ${order.status === 'PENDING' ? 'text-bg-warning' : ''}
                                     ${order.status === 'PROCESSING' ? 'text-bg-info' : ''}
                                     ${order.status === 'COMPLETED' ? 'text-bg-success' : ''}
                                     ${order.status === 'CANCELLED' ? 'text-bg-danger' : ''}
-                                ">
-                                    ${order.status}
+                            ">
+                                ${order.status}
+                                ${order.status === 'PROCESSING' ? `
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Carregando...</span>
+                                    </div>
+                                ` : ""}
                                 </div>
                             </td>
                             <td class="text-center">${order.client ? order.client.name : "-"}</td>
@@ -282,7 +289,7 @@ function showOrderDetailsModal(order) {
                         <ul class="list-group">
                             ${order.orderItems.map(item => `
                                 <li class="list-group-item">
-                                    ${item.product.image ? `<img src="${HOST_REQUEST}/uploads/product/${item.product.image}" alt="${item.product.name}" style="border-radius: var(--cui-border-radius); max-width: 70px; max-height: 70px; margin-right: 10px;">` : '<span style="max-width: 70px; max-height: 70px; margin-right: 10px;"></span>'}
+                                    ${item.product.image ? `<img src="${HOST_REQUEST}/uploads/product/${item.product.id}/${item.product.image}" alt="${item.product.name}" style="border-radius: var(--cui-border-radius); max-width: 70px; max-height: 70px; margin-right: 10px;">` : '<span style="max-width: 70px; max-height: 70px; margin-right: 10px;"></span>'}
                                     <strong>${item.product.name}</strong> x ${item.quantity} (R$ ${item.price ? item.price.toFixed(2) : '0.00'})
                                     ${item.orderItemAdditional && item.orderItemAdditional.length > 0 ? `
                                         <br>
@@ -828,6 +835,9 @@ async function createFormOrder(order) {
         `;
 
         try {
+            console.log("REQUEST: ", `${HOST_REQUEST}/order`);
+            console.log("REQUEST [DATA]: ", requestData);
+
             let response;
             if (isEdit) {
                 response = await axios.put(`${HOST_REQUEST}/order/${order.id}`, requestData);
