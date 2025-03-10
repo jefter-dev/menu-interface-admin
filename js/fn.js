@@ -1,7 +1,7 @@
 const HOST = "http://localhost:5500";
 // const HOST_MENU = "http://cardapioja.com";
 const HOST_MENU = "http://localhost:3000";
-const HOST_REQUEST = "http://localhost:8080";
+const HOST_REQUEST = "http://localhost:8080/cardapioja.com";
 
 // INCIALIZAR SESSÃO
 const initializeInterfaceSession = () => {
