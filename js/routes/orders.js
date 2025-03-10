@@ -503,7 +503,7 @@ async function createFormOrder(order) {
                             ${isEdit ?
             selectedOrderItems.map((item, index) => `
                                     <tr data-item-index="${index}" data-product-id="${item.product.id}">
-                                        <td>${item.product.image ? `<img src="${HOST_REQUEST}/uploads/product/${item.product.image}" alt="${item.product.name}" style="max-width: 70px; max-height: 70px; margin-right: 10px; border-radius: var(--cui-border-radius);">` : '<span style="max-width: 70px; max-height: 70px; margin-right: 10px;"></span>'}</td>
+                                        <td>${item.product.image ? `<img src="${HOST_REQUEST}/uploads/product/${item.product.id}/${item.product.image}" alt="${item.product.name}" style="max-width: 70px; max-height: 70px; margin-right: 10px; border-radius: var(--cui-border-radius);">` : '<span style="max-width: 70px; max-height: 70px; margin-right: 10px;"></span>'}</td>
                                         <td>${item.product.name}</td>
                                         <td><input type="number" value="${item.quantity}" class="form-control quantity-input" data-item-index="${index}"  data-product-id="${item.product.id}" min="1" style="width: 60px;"></td>
                                         <td>R$ ${item.product.price.toFixed(2)}</td>
@@ -568,7 +568,7 @@ async function createFormOrder(order) {
         tr.setAttribute('data-product-id', item.product.id);
         tr.setAttribute('data-item-index', index);
         tr.innerHTML = `
-            <td>${item.product.image ? `<img src="${HOST_REQUEST}/uploads/product/${item.product.image}" alt="${item.product.name}" style="max-width: 70px; max-height: 70px; margin-right: 10px; border-radius: var(--cui-border-radius);">` : '<span style="max-width: 70px; max-height: 70px; margin-right: 10px;"></span>'}</td>
+            <td>${item.product.image ? `<img src="${HOST_REQUEST}/uploads/product/${item.product.id}/${item.product.image}" alt="${item.product.name}" style="max-width: 70px; max-height: 70px; margin-right: 10px; border-radius: var(--cui-border-radius);">` : '<span style="max-width: 70px; max-height: 70px; margin-right: 10px;"></span>'}</td>
             <td>${item.product.name}</td>
             <td><input type="number" value="${item.quantity}" class="form-control quantity-input" data-item-index="${index}" data-product-id="${item.product.id}" min="1" style="width: 100px;"></td>
             <td>R$ ${item.product.price.toFixed(2)}</td>
